@@ -16,3 +16,11 @@ local.properties
 .idea
 /kotlin-js-store
 .vscode
+
+*.jks
+*.keystore
+
+/_assets
+/.kotlin
+
+/gradle/libs.versions.updates.toml

@@ -4,11 +4,7 @@ plugins {
 }
 
 kotlin {
-    jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = JavaVersion.VERSION_17.majorVersion
-        }
-    }
+    jvm()
 //    https://kotlinlang.org/docs/js-to-kotlin-interop.html#kotlin-types-in-javascript
     js(IR) {
         binaries.executable()
@@ -16,11 +12,20 @@ kotlin {
         generateTypeScriptDefinitions()
         browser {}
     }
-    sourceSets["commonMain"].dependencies {
-        implementation(libs.kotlin.stdlib.common)
-    }
-    sourceSets["jvmTest"].dependencies {
-        implementation(libs.kotlinx.serialization.json)
-        implementation(libs.junit)
+    sourceSets {
+        all {
+            languageSettings.optIn("kotlin.js.ExperimentalJsExport")
+        }
+        commonMain {
+            dependencies {
+                implementation(libs.kotlin.stdlib)
+            }
+        }
+        jvmTest {
+            dependencies {
+                implementation(libs.kotlinx.serialization.json)
+                implementation(libs.kotlin.test)
+            }
+        }
     }
 }
